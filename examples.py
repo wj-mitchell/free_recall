@@ -32,8 +32,17 @@ instructions = [
 
 # Recording PID and record duration
 pid, dur = functions.dialogue_box()
+
+# Checking if directories exist
+target_dir =
 filename = 'recall_' + pid + '_' + today_string + '.wav'
-print('file will be saved as: ' + filename)
+if os.path.exists(target_dir):
+    filepath = target_dir + "/" + filename 
+else:
+    filepath = filename
+    
+# Printing save location to the terminal
+print('file will be saved as: ' + filepath)
 
 # Setting the window settings
 win = visual.Window(fullscr=True,  
@@ -50,7 +59,7 @@ for TEXT in instructions:
 
 functions.free_recall(win, 
                      image_size = (win.size[0]/(win.size[1] * 2.5), win.size[1]/win.size[1]),
-                     output_file = filename,
+                     output_file = filepath,
                      fixation_duration = 30,
                      record_duration = dur)
 
