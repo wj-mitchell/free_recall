@@ -160,7 +160,7 @@ def text_display(win, text, duration, text_color = 'white', text_height = 0.065,
     ts_end = datetime.datetime.now()
 
 # ----- SHOW_FIXATION -----
-def show_fixation(win, duration=30):
+def show_fixation(win, duration = 30):
     """
     show_fixation shows a fixation cross in the center of the screen for a number of seconds equal to duration.
     
@@ -175,7 +175,21 @@ def show_fixation(win, duration=30):
     fixation = visual.TextStim(win, text='+', height=0.2, color='black')
     fixation.draw()
     win.flip()
-    core.wait(duration)
+    
+    # Initializing keyboard
+    kb = keyboard.Keyboard()
+
+    # If duration is an integer ...
+    if isinstance(duration, int) or isinstance(duration, float):
+        
+        # Custom utility function to progress the event
+        key_or_time(win = win, duration = duration, keyboard = kb)
+    
+    # If duration is a string ...
+    elif isinstance(duration, str):
+        
+        # Custom utility function to progress the event
+        response = key_or_time(win = win, duration = duration, keyboard = kb)
 
 # ----- FREE RECALL -----
 def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate = 'default_samplerate', output_file = 'recording.wav', image='record.png', image_size = (300,300), show_volume = True, target_volume = 50, volume_sensitivity = 150, volume_color = 'darkblue', trigger_text = "Waiting for scanner...", trigger_key = 'equal', fixation_duration = 0,  end_key = '0', record_duration = 0): 

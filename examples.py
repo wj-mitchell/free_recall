@@ -54,3 +54,4 @@ functions.free_recall(win,
                      fixation_duration = 30,
                      record_duration = dur)
 
+functions.show_fixation(duration = '0')
