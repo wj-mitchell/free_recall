@@ -9,7 +9,7 @@ __license__ = "GNU v3"
 import functions
 import os
 from datetime import datetime
-from psychopy import visual, core 
+from psychopy import visual, core, event 
 
 # Set the directory to where the script is located (or any other desired directory)
 script_dir = os.path.dirname(os.path.abspath(__file__))  # Get the directory where the script is located
@@ -56,21 +56,30 @@ win = visual.Window(fullscr=True,
                     useFBO=True)
 
 tracker = 0
-for TEXT in instructions:    
-    if tracker is not len(instructions):
-        functions.text_display(win, text = TEXT, duration = '0')
+print(len(instructions))
+for TEXT in instructions: 
+    tracker += 1   
+    print(tracker)
+    # Display instructions
+    if tracker != len(instructions):
+        functions.text_display(win, text=TEXT, duration='0')
     else:
-        functions.text_display(win, text = TEXT, image_path = 'record.png', duration = '0')
+        functions.text_display(win, text=TEXT, image_path='record.png', duration='0')
 
-    tracker =+ 1
 
+
+# Start the free recall task
 functions.free_recall(win, 
-                     image_size = (win.size[0]/(win.size[1] * 2.5), win.size[1]/win.size[1]),
-                     output_file = filepath,
-                     fixation_duration = 30,
-                     record_duration = dur)
+                     image_size=(win.size[0]/(win.size[1] * 2.5), win.size[1]/win.size[1]),
+                     output_file=filepath,
+                     fixation_duration=30,
+                     record_duration=dur)
 
-functions.show_fixation(duration = '0')
+# Show fixation cross
+functions.show_fixation(duration='0')
+
+# Check for 'Esc' key before closing the window
+functions.check_for_escape(win)
 
 # Close the PsychoPy window
 win.close()

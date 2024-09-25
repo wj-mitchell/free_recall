@@ -17,6 +17,19 @@ from psychopy import sound  # Import sound after setting preferences
 from scipy.io import wavfile
 import datetime
 
+# ----- CHECK FOR ESCAPE -----
+def check_for_escape(win):
+    """
+    check_for_escape waits for escape to be pressed and then closes the task. 
+    
+    Args:
+
+    Returns:
+    """
+    if 'escape' in event.getKeys():
+        win.close()
+        core.quit()
+
 # ----- DIALOGUE BOX -----
 def dialogue_box():
     
@@ -107,7 +120,7 @@ def key_or_time(win, duration, keyboard):
         return response
 
 # ----- TEXT_DISPLAY -----
-def text_display(win, text, duration, image_path=None, text_color = 'white', text_height = 0.065, wrap_width = 1.45):
+def text_display(win, text, duration, image_path=None, text_color = 'white', text_height = 0.11, wrap_width = 1.45):
 
     """
     text_display draws text on the window. If duration is an integer, it will appear for a number of seconds equal to that integer. If duration is the name of a recognized key, the fixation will appear until that key is pressed 
@@ -135,7 +148,8 @@ def text_display(win, text, duration, image_path=None, text_color = 'white', tex
     
     # If an image path is provided, define an ImageStim object
     if image_path is not None:
-        image_stim = visual.ImageStim(win=win, image=image_path, pos=[0, -0.4], autoDraw=True)
+        image_stim = visual.ImageStim(win=win, image=image_path, pos=[0, -0.6], size = [0.4, 0.65])
+        image_stim.autoDraw = True
     else:
         image_stim = None
 
@@ -159,9 +173,14 @@ def text_display(win, text, duration, image_path=None, text_color = 'white', tex
 
     # Stop drawing the text
     text.setAutoDraw(False)
+    if image_stim is not None:
+        image_stim.setAutoDraw(False)
 
     # Flip the window
     win.flip()
+    
+    # Check for escape key after each instruction display
+    check_for_escape(win)
 
     # Stop the clock
     ts_end = datetime.datetime.now()
@@ -197,6 +216,9 @@ def show_fixation(win, duration = 30):
         
         # Custom utility function to progress the event
         response = key_or_time(win = win, duration = duration, keyboard = kb)
+
+    # Check for escape key after each instruction display
+    check_for_escape(win)
 
 # ----- FREE RECALL -----
 def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate = 'default_samplerate', output_file = 'recording.wav', image='record.png', image_size = (300,300), show_volume = True, target_volume = 50, volume_sensitivity = 125, volume_color = 'darkblue', trigger_text = "Waiting for scanner...", trigger_key = 'equal', fixation_duration = 0,  end_key = '0', record_duration = 0): 
@@ -282,6 +304,10 @@ def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate 
     stream.start()
 
     try:
+        
+        # Check for escape key after each instruction display
+        check_for_escape(win)
+
         while True:
             keys = event.getKeys()
 
