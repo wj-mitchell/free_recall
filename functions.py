@@ -107,7 +107,7 @@ def key_or_time(win, duration, keyboard):
         return response
 
 # ----- TEXT_DISPLAY -----
-def text_display(win, text, duration, text_color = 'white', text_height = 0.065, wrap_width = 1.45):
+def text_display(win, text, duration, image_path=None, text_color = 'white', text_height = 0.065, wrap_width = 1.45):
 
     """
     text_display draws text on the window. If duration is an integer, it will appear for a number of seconds equal to that integer. If duration is the name of a recognized key, the fixation will appear until that key is pressed 
@@ -116,6 +116,7 @@ def text_display(win, text, duration, text_color = 'white', text_height = 0.065,
         win: Defining the window to use
         text: The text that you'd like to appear in your instructions
         duration: Either an integer or the name of a key; for how long or until what condition is met should the fixation be apparent 
+        image_path: Path to the image file (.png) to display below the text (optional)
         text_color: The color of the fixation
         text_height: The height of the fixation cross
         wrap_width: How long before text should break and wrap to the next line
@@ -132,6 +133,12 @@ def text_display(win, text, duration, text_color = 'white', text_height = 0.065,
     # Define our text object
     text = visual.TextStim(win=win, text=text, pos=[0,0], height=text_height, wrapWidth=wrap_width, color=text_color, autoDraw = True)
     
+    # If an image path is provided, define an ImageStim object
+    if image_path is not None:
+        image_stim = visual.ImageStim(win=win, image=image_path, pos=[0, -0.4], autoDraw=True)
+    else:
+        image_stim = None
+
     # Flipping the window
     win.flip()
 
@@ -192,7 +199,7 @@ def show_fixation(win, duration = 30):
         response = key_or_time(win = win, duration = duration, keyboard = kb)
 
 # ----- FREE RECALL -----
-def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate = 'default_samplerate', output_file = 'recording.wav', image='record.png', image_size = (300,300), show_volume = True, target_volume = 50, volume_sensitivity = 150, volume_color = 'darkblue', trigger_text = "Waiting for scanner...", trigger_key = 'equal', fixation_duration = 0,  end_key = '0', record_duration = 0): 
+def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate = 'default_samplerate', output_file = 'recording.wav', image='record.png', image_size = (300,300), show_volume = True, target_volume = 50, volume_sensitivity = 125, volume_color = 'darkblue', trigger_text = "Waiting for scanner...", trigger_key = 'equal', fixation_duration = 0,  end_key = '0', record_duration = 0): 
 
     """
     free_recall is a modular task component which, upon receiving a trigger key, begins recording audio from the default microphone of the computer running it. It draws a live volume tracker to the right of the target image to give participants feedback regarding their speaking voices. It will record indefinitely until the end key is pressed. Once completed, it will generate a .wav formatted output file.
