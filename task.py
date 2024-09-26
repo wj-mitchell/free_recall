@@ -76,7 +76,7 @@ functions.free_recall(win,
                      record_duration=dur)
 
 # Show fixation cross
-functions.show_fixation(duration='0')
+functions.show_fixation(win, duration='0')
 
 # Check for 'Esc' key before closing the window
 functions.check_for_escape(win)
