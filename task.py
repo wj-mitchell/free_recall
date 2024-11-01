@@ -28,7 +28,8 @@ instructions = [
     "Try to remember the events in chronological order, but if at any point you realize you missed something, go back and describe it.",
     "Please speak for at least 10 minutes if you can, but even longer is better. We cannot display a timer for this task.\n\nRemember to try to stay as still as you can as you talk.",
     "A bar on the right side of the screen will give you feedback as to how loud you are talking. Please try to speak loud enough so that the bar reaches the red target lines.",    
-    "You may start speaking when this symbol appears.\n\nWhen you have finished, please say 'I'm done' and we will stop recording."
+    "You may start speaking when this symbol appears.\n\nWhen you have finished, please say 'I'm done' and we will stop recording.",
+    "Before the next task begins, we will run a very quick scan. You will see a fixation cross appear on the screen. Please just relax while this scan runs."
 ]
 
 # Recording PID and record duration
@@ -36,7 +37,7 @@ pid, dur, save_local = functions.dialogue_box()
 
 # Checking if directories exist
 target_dir = 'S:/Helion_Group/studies/Dynamic_Decisions/Data/Audio'
-filename = 'recall_' + pid + '_' + today_string + '.wav'
+filename = 'Recall_' + pid + '_' + today_string + '.wav'
 if os.path.exists(target_dir) and save_local is False:
     filepath = target_dir + "/" + filename 
 else:
@@ -64,7 +65,8 @@ for TEXT in instructions:
     else:
         functions.text_display(win, text=TEXT, image_path='record.png', duration='0')
 
-
+# Show fixation cross
+functions.show_fixation(win, duration='0')
 
 # Start the free recall task
 functions.free_recall(win, 
