@@ -222,7 +222,7 @@ def show_fixation(win, duration = 30):
     check_for_escape(win)
 
 # ----- FREE RECALL -----
-def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate = 'default_samplerate', output_file = 'recording.wav', image='record.png', image_size = (300,300), show_volume = True, target_volume = 50, volume_sensitivity = 125, volume_color = 'darkblue', trigger_text = "Waiting for scanner...", trigger_key = 'equal', fixation_duration = 0,  end_key = '0', record_duration = 0): 
+def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate = 'default_samplerate', output_file = 'recording.wav', image='record.png', image_size = (300,300), show_volume = True, target_volume = 50, volume_sensitivity = 100, volume_color = 'darkblue', trigger_text = "Waiting for scanner...", trigger_key = 'equal', fixation_duration = 0,  end_key = '0', record_duration = 0): 
 
     """
     free_recall is a modular task component which, upon receiving a trigger key, begins recording audio from the default microphone of the computer running it. It draws a live volume tracker to the right of the target image to give participants feedback regarding their speaking voices. It will record indefinitely until the end key is pressed. Once completed, it will generate a .wav formatted output file.
@@ -312,7 +312,7 @@ def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate 
         while True:
             keys = event.getKeys()
 
-            if trigger_key in keys:
+            if not recording_triggered and trigger_key in keys:
                 if fixation_duration > 0: 
                     show_fixation(win, fixation_duration) # Show fixation
                 recording_triggered = True  # Set the flag to indicate that recording has been triggered
