@@ -32,12 +32,12 @@ instructions = [
 ]
 
 # Recording PID and record duration
-pid, dur = functions.dialogue_box()
+pid, dur, save_local = functions.dialogue_box()
 
 # Checking if directories exist
 target_dir = 'S:/Helion_Group/studies/Dynamic_Decisions/Data/Audio'
 filename = 'recall_' + pid + '_' + today_string + '.wav'
-if os.path.exists(target_dir):
+if os.path.exists(target_dir) and save_local is False:
     filepath = target_dir + "/" + filename 
 else:
     filepath = filename
@@ -56,10 +56,8 @@ win = visual.Window(fullscr=True,
                     useFBO=True)
 
 tracker = 0
-print(len(instructions))
 for TEXT in instructions: 
     tracker += 1   
-    print(tracker)
     # Display instructions
     if tracker != len(instructions):
         functions.text_display(win, text=TEXT, duration='0')
