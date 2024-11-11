@@ -60,7 +60,7 @@ tracker = 0
 for TEXT in instructions: 
     tracker += 1   
     # Display instructions
-    if tracker != len(instructions):
+    if tracker != len(instructions) - 1:
         functions.text_display(win, text=TEXT, duration='0')
     else:
         functions.text_display(win, text=TEXT, image_path='record.png', duration='0')

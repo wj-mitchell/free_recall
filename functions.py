@@ -187,7 +187,7 @@ def text_display(win, text, duration, image_path=None, text_color = 'white', tex
     ts_end = datetime.datetime.now()
 
 # ----- SHOW_FIXATION -----
-def show_fixation(win, duration = 30):
+def show_fixation(win, duration = 30, text_color = 'white', text_height = 0.2):
     """
     show_fixation shows a fixation cross in the center of the screen for a number of seconds equal to duration.
     
@@ -199,10 +199,13 @@ def show_fixation(win, duration = 30):
 
     # Notes on Future Improvements:
     
-    fixation = visual.TextStim(win, text='+', height=0.2, color='black')
-    fixation.draw()
+
+     # Define our text object
+    fixation = visual.TextStim(win=win, text='+', pos=[0,0], height=text_height, color=text_color, autoDraw = True)
+
+    # Flipping the window
     win.flip()
-    
+        
     # Initializing keyboard
     kb = keyboard.Keyboard()
 
@@ -218,11 +221,17 @@ def show_fixation(win, duration = 30):
         # Custom utility function to progress the event
         response = key_or_time(win = win, duration = duration, keyboard = kb)
 
+    # Stop drawing the text
+    fixation.setAutoDraw(False)
+
+    # Clear after continue condition is met
+    win.flip()
+
     # Check for escape key after each instruction display
     check_for_escape(win)
 
 # ----- FREE RECALL -----
-def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate = 'default_samplerate', output_file = 'recording.wav', image='record.png', image_size = (300,300), show_volume = True, target_volume = 50, volume_sensitivity = 100, volume_color = 'darkblue', trigger_text = "Waiting for scanner...", trigger_key = 'equal', fixation_duration = 0,  end_key = '0', record_duration = 0): 
+def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate = 'default_samplerate', output_file = 'recording.wav', image='record.png', image_size = (300,300), show_volume = True, target_volume = 50, volume_sensitivity = 50, volume_color = 'darkblue', trigger_text = "Waiting for scanner...", trigger_key = 'equal', fixation_duration = 0,  end_key = '0', record_duration = 0): 
 
     """
     free_recall is a modular task component which, upon receiving a trigger key, begins recording audio from the default microphone of the computer running it. It draws a live volume tracker to the right of the target image to give participants feedback regarding their speaking voices. It will record indefinitely until the end key is pressed. Once completed, it will generate a .wav formatted output file.
@@ -261,6 +270,7 @@ def free_recall(win, device_info = sd.query_devices(None, 'input'), sample_rate 
     script_dir = os.path.dirname(os.path.abspath(__file__))  # Get the directory where the script is located
     os.chdir(script_dir)  # Change the current working directory to the script directory
     print(f"Current working directory: {os.getcwd()}")  # Print the current working directory
+    # print(f"Current device information: {device_info.name}")
 
     # Capturing the time
     ts_start = datetime.datetime.now()
