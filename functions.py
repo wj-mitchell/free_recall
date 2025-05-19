@@ -46,7 +46,7 @@ def dialogue_box():
     subjDlg = gui.Dlg(title='free_recall') # Denoting the task title
     subjDlg.addField('Enter Subject ID: ', 'DD-')  # Denoting the Subject ID
     subjDlg.addField('Duration (s):', 1200) # Denoting maximum recording time
-    subjDlg.addField('Save Local:', initial= True) # Whether to save locally
+    subjDlg.addField('Save Local:', initial= False) # Whether to save locally
     subjDlg.show() # Present the GUI
     if subjDlg.OK == False:
         core.quit()
