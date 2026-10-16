@@ -24,12 +24,12 @@ today_string = today_date.strftime('%Y-%m-%d')
 
 # Denoting the instructions
 instructions = [
-    "For this scan, please describe everything you can remember from the episode in as much detail as possible.\n\nInclude everything you can remember, even if you don't think it's important.", 
+    "For this task, please describe everything you can remember from the episode in as much detail as possible.\n\nInclude everything you can remember, even if you don't think it's important.", 
     "Try to remember the events in chronological order, but if at any point you realize you missed something, go back and describe it.",
-    "Please speak for at least 10 minutes if you can, but even longer is better. We cannot display a timer for this task.\n\nRemember to try to stay as still as you can as you talk.",
-    "A bar on the right side of the screen will give you feedback as to how loud you are talking. Please try to speak loud enough so that the bar reaches the red target lines.",    
-    "You may start speaking when this symbol appears.\n\nWhen you have finished, please say 'I'm done' and we will stop recording.",
-    "Before the next task begins, we will run a very quick scan. You will see a fixation cross appear on the screen. Please just relax while this scan runs."
+    "Please speak for at least 10 minutes if you can, but even longer is better. We cannot display a timer for this task.\n\nRemember to try to speak clearly and relatively loudly.",
+    "A bar on the right side of the screen will give you feedback as to how loud you are talking. Please try to speak loud enough so that the bar reaches the red target lines while you are talking.",    
+    "You may start speaking when this symbol appears.\n\nWhen you have finished, please let the researchers know.",
+    # "Before the next task begins, we will run a very quick scan. You will see a fixation cross appear on the screen. Please just relax while this scan runs."
 ]
 
 # Recording PID and record duration
@@ -60,19 +60,22 @@ tracker = 0
 for TEXT in instructions: 
     tracker += 1   
     # Display instructions
-    if tracker != len(instructions) - 1:
+    if tracker != len(instructions):
         functions.text_display(win, text=TEXT, duration='0')
     else:
         functions.text_display(win, text=TEXT, image_path='record.png', duration='0')
 
 # Show fixation cross
-functions.show_fixation(win, duration='0')
+# functions.show_fixation(win, duration='0')
 
 # Start the free recall task
 functions.free_recall(win, 
                      image_size=(win.size[0]/(win.size[1] * 2.5), win.size[1]/win.size[1]),
                      output_file=filepath,
-                     fixation_duration=30,
+                     fixation_duration=5,
+                     trigger_text = "Press the equal key to begin",
+                     volume_sensitivity = 25,
+                     target_volume = 40,
                      record_duration=dur)
 
 # Show fixation cross
